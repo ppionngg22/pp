@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>คำนวณวงเงินกู้</title>
+  <style>
+    body { font-family: sans-serif; max-width: 400px; margin: auto; padding: 20px; }
+    input, button { font-size: 18px; width: 100%; margin: 10px 0; padding: 8px; }
+    .result { font-size: 20px; font-weight: bold; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h2>เครื่องคำนวณวงเงินกู้</h2>
+  <label>รายรับสุทธิ (บาท/เดือน):</label>
+  <input id="income" type="number" placeholder="เช่น 16000" />
+
+  <label>ภาระหนี้ต่อเดือน (บาท):</label>
+  <input id="debt" type="number" placeholder="เช่น 3000" />
+
+  <button onclick="calculateLoan()">คำนวณ</button>
+
+  <div class="result" id="output"></div>
+
+  <script>
+    function calculateLoan() {
+      const income = parseFloat(document.getElementById('income').value);
+      const debt = parseFloat(document.getElementById('debt').value);
+
+      if (isNaN(income) || isNaN(debt)) {
+        document.getElementById('output').textContent = "กรุณากรอกตัวเลขให้ครบ";
+        return;
+      }
+
+      const maxInstallment = (income * 0.4) - debt;
+      const loanAmount = maxInstallment * 300; // ประมาณ 25 ปี
+
+      if (maxInstallment <= 0) {
+        document.getElementById('output').textContent = "ไม่สามารถกู้ได้ (ภาระหนี้สูงเกินไป)";
+      } else {
+        document.getElementById('output').textContent = 
+          `สามารถผ่อนได้เดือนละ ≈ ${maxInstallment.toFixed(2)} บาท\n` +
+          `วงเงินกู้ประมาณ ≈ ${loanAmount.toFixed(2)} บาท`;
+      }
+    }
+  </script>
+</body>
+</html>
